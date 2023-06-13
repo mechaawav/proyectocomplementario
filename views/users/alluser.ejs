@@ -1,0 +1,28 @@
+<%-include('../partials/head')-%>
+<div class="col-9">
+  <div class="container p-3 w-100">
+     <h1 class="mt-5 mb-4">Todos los Usuarios</h1>
+     <table class="table table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+    
+            <tr>
+                <td>Pepe</td>
+                <td>pepe@gmail.com</td>
+                <td><button>Editar</button></td>
+                <td>
+                    <form action="/eliminar/user" method="post">
+                        <button type="submit" class="btn btn-danger ml-2">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+     </table>
+    </div>
+</div>
