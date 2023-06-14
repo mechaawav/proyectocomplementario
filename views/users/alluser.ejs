@@ -11,17 +11,19 @@
             </tr>
         </thead>
         <tbody>
-    
+           <% users.forEach(user=>{ %>
             <tr>
-                <td>Pepe</td>
-                <td>pepe@gmail.com</td>
-                <td><button>Editar</button></td>
+                <td><%=user.name%></td>
+                <td><%=user.email%></td>
+                <td><a class="btn btn-primary" href="/edituser/<%=user.id%>">Editar</a></td>
                 <td>
                     <form action="/eliminar/user" method="post">
                         <button type="submit" class="btn btn-danger ml-2">Eliminar</button>
                     </form>
                 </td>
             </tr>
+          <% })%>
+            
         </tbody>
      </table>
     </div>
