@@ -1,11 +1,26 @@
 import express from "express";
-// import User from '../models/usermodel.js'
+import passport from 'passport';
+import User from '../models/usermodel.js'
 const router=express.Router()
+
+//Pagina principal:
+// router.get('/',(req,res)=>{
+//     res.render('users/index') 
+//  })
 
 //Login:
  router.get('/login',(req,res)=>{
     res.render('users/login') 
  })
+
+ router.post('/login',passport.authenticate('local',{
+      successRedirect:'/dashboard',
+      failureRedirect:'/login',
+      failureFlash:'Email o Password invalidos. Intente de nuevo.'
+    
+ }))
+   
+ 
 
  //Cerrar Sesion:
  router.get('/logout',(req,res)=>{
@@ -36,13 +51,49 @@ const router=express.Router()
     })
  })
 
+ //Editar usuario:
 router.get('/edituser/:id',(req,res)=>{
     let buscarId={_id:req.params.id}
     User.findOne(buscarId)
      .then(user=>{
         res.render('/users/edituser',{user:user})
      })
+     .catch(error=>{
+      // mensaje de error
+      res.redirect('users/allusers')
+     })
 })
+
+router.delete('/deleteuser/:id',(req,res)=>{
+   let buscarId={_id:req.params.id}
+   User.deleteOne(buscarId)
+   .then(user=>{
+      //mensaje se borro con exito
+      res.redirect('users/allusers')
+   })
+   .catch(error=>{
+      //mensaje de error en la base 
+      res.redirect('users/allusers')
+   })
+})
+
+//Registrarse:
+router.post('/registrar',(req,res)=>{
+    let {nombre, email, password}=req.body;
+    let userData={
+        nombre:nombre,
+        email:email,
+    }
+    User.register(userData,password,(error,user)=>{
+        if(error){
+            //mensaje de error
+            res.redirect('/registrar')
+        }
+        res.render('users/registrar') 
+    })
+    
+ })
+
 
 
 

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 
 let userScheme=new mongoose.Schema({
     name:String,
@@ -12,5 +12,5 @@ let userScheme=new mongoose.Schema({
 
 })
 
-
-module.exports=mongoose('User',userScheme)
+export default model('User',userScheme) // Otra forma de exportar
+// module.exports=mongoose('User',userScheme)

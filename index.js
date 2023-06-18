@@ -4,7 +4,9 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import morgan from 'morgan'
-import userRoutes from './routes/users.js'
+import router from './routes/users.js'
+import User from './models/usermodel.js'
+import LocalStrategy from 'passport-local'
 
 const app = express()
 app.use(morgan('dev'))
@@ -15,13 +17,25 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 
-app.use(userRoutes)
+app.use(router)
 
 dotenv.config({path:'./config.env'})
 
 mongoose.connect(process.env.DATABASE,{
-    
+    useNewUrlParser:true,
+    useUnifiedTopology:true,
+    useCreateIndex:true
 })
+.then(mensaje=>{
+    console.log('Se conecto a la base')
+})
+
+app.use(passport.initialize())
+
+app.use(passport.session())
+
+passport.use(new LocalStrategy({usernameField:'email'}),User.authenticate())
+
 
 app.listen(process.env.PORT,()=>{
     console.log('Servidor iniciado')
