@@ -3,7 +3,7 @@ import passport from 'passport';
 import User from '../models/usermodel.js'
 const router=express.Router()
 
-//Pagina principal:
+// Pagina principal:
 // router.get('/',(req,res)=>{
 //     res.render('users/index') 
 //  })
@@ -20,12 +20,10 @@ const router=express.Router()
     
  }))
    
- 
-
  //Cerrar Sesion:
  router.get('/logout',(req,res)=>{
     req.logOut()
-    //enviar mensaje de salida de sesion
+   //  req.flash('success_msg', 'Se cerro la sesion')
     res.redirect('/login')
  })
 
@@ -78,6 +76,11 @@ router.delete('/deleteuser/:id',(req,res)=>{
 })
 
 //Registrarse:
+
+router.get('/registrar',(req,res)=>{
+   res.render('users/registrar') 
+})
+
 router.post('/registrar',(req,res)=>{
     let {nombre, email, password}=req.body;
     let userData={
@@ -86,10 +89,11 @@ router.post('/registrar',(req,res)=>{
     }
     User.register(userData,password,(error,user)=>{
         if(error){
-            //mensaje de error
+            // req.flash('error_msg', 'ERROR:'+error)
             res.redirect('/registrar')
         }
-        res.render('users/registrar') 
+      //   req.flash('success_msg', 'Cuenta creada')
+        res.render('users/login') 
     })
     
  })
